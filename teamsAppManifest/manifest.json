@@ -36,7 +36,12 @@
                   "description": "Command to run action to create a reaction",
                   "title": "Create Reaction",
                   "type": "action",
-                  "fetchTask": true
+                  "fetchTask": false,
+                  "taskInfo": {
+                      "height": "medium",
+                      "width": "medium",
+                      "url": "https://19a7-131-107-159-43.ngrok.io/?userId={userObjectId}&convId={chatId}"
+                  }
               }
           ]
       }
@@ -47,5 +52,5 @@
       "identity",
       "messageTeamMembers"
   ],
-  "validDomains": []
+  "validDomains": ["*.ngrok.io"]
 }
