@@ -10,7 +10,7 @@ import Privacy from './about/Privacy';
 import TermsOfUse from './about/TermsOfUse';
 import Tab from './Tab';
 import TabConfig from './TabConfig';
-import { Camera } from './Camera';
+import { MainPage } from './MainPage';
 
 /**
  * The main app which handles the initialization and routing
@@ -43,8 +43,8 @@ function Child({messageId, userId, convId}) {
     <div>
         <h1>messageId: {messageId} </h1>
         <h1>userId: {userId} </h1>
-        <h1>convId: {convId} </h1>   
-        <Camera messageId={messageId} userId={userId} convId={convId}/>    
+        <h1>convId: {convId} </h1>
+        <MainPage messageId={messageId} userId={userId} convId={convId}/>    
     </div>
   )
 }
