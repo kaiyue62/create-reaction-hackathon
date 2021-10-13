@@ -40,7 +40,7 @@
                   "taskInfo": {
                       "height": "medium",
                       "width": "medium",
-                      "url": "https://19a7-131-107-159-43.ngrok.io/?userId={userObjectId}&convId={chatId}"
+                      "url": "https://daseong-ms.github.io/create-reaction-hackathon/?userId={userObjectId}&convId={chatId}"
                   }
               }
           ]
@@ -52,5 +52,5 @@
       "identity",
       "messageTeamMembers"
   ],
-  "validDomains": ["*.ngrok.io"]
+  "validDomains": ["daseong-ms.github.io"]
 }
