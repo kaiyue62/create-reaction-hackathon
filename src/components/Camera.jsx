@@ -1,13 +1,12 @@
 import * as React from 'react';
 import { Button } from '@fluentui/react-northstar';
 import "./Camera.css";
-import * as axios from 'axios';
 import { uploadUserImage } from './data';
 
 const width = 320;
 const height = 240;
 
-export const Camera = ({messageId, userId, convId}) => {
+export const Camera = ({userId}) => {
   const videoRef = React.useRef(null);
   const canvasRef = React.useRef(null);
   const photoRef = React.useRef(null);
@@ -18,13 +17,13 @@ export const Camera = ({messageId, userId, convId}) => {
   }, [videoRef]);
 
   const onCameraClick = (e) => {
-    takePicture(canvasRef.current, videoRef.current, photoRef.current);
+    takePicture(canvasRef.current, videoRef.current, photoRef);
     e.preventDefault();
   };
 
   const onConfirmClick = () => {
     // upload to server
-    uploadUserImage(messageId, userId, convId, photoRef.current);
+    uploadUserImage(userId, photoRef.current);
   };
 
   const onCancelClick = () => {
@@ -65,16 +64,16 @@ export const init = (video) => {
     });
 };
 
-export const takePicture = (canvas, video, photo) => {
+export const takePicture = (canvas, video, photoRef) => {
   var context = canvas.getContext("2d");
   if (width && height) {
     canvas.width = width;
     canvas.height = height;
     context.drawImage(video, 0, 0, width, height);
 
-    var data = canvas.toDataURL("image/png");
-    photo = data;
-    console.log(`photo: ${JSON.stringify(photo)}`);
+    var data = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+    photoRef.current = data;
+    console.log(`take photo`);
   } else {
     clearPhoto(canvas, photo);
   }
