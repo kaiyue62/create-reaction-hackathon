@@ -71,13 +71,19 @@ export const takePicture = (canvas, video, photoRef) => {
     canvas.height = height;
     context.drawImage(video, 0, 0, width, height);
 
-    var data = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
-    photoRef.current = data;
+    var data = canvas.toDataURL("image/png")
+    // .replace("image/png", "image/octet-stream");
+    photoRef.current = cleanData(data);
     console.log(`take photo`);
   } else {
     clearPhoto(canvas, photo);
   }
 };
+
+const cleanData=(data)=>{
+  const index=data.indexOf("base64,");
+  return data.substring(index+7);
+}
 
 export const clearPhoto = (canvas, photo) => {
   var context = canvas.getContext("2d");
