@@ -66,7 +66,11 @@ export const Camera = ({ userId }) => {
 export const init = (video) => {
   navigator.mediaDevices
     .getUserMedia({
-      video: true,
+      video: {
+        mandatory: {
+          chromeMediaSource: "desktop",
+        },
+      },
       audio: false,
     })
     .then(function (stream) {
