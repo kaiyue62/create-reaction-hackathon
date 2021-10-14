@@ -10,6 +10,7 @@ import {
 import { FixedSizeGrid } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { getAllMockEmojis } from "./MockData";
+import { getCustomImages, selectCustomImage } from "./data";
 
 const imageButtonStyles = {
   width: "calc(100% - 10px)",
@@ -53,7 +54,7 @@ const AddEmoji = ({ style }) => {
   );
 };
 
-const ItemRenderer = (props) => {
+const EmojiRenderer = (props) => {
   const { columnIndex, data, rowIndex, style } = props;
   const index = rowIndex * data.columnCount + columnIndex;
 
@@ -65,20 +66,44 @@ const ItemRenderer = (props) => {
   if (item.id === "add-emoji") {
     return <AddEmoji style={style} />;
   }
+
+  const onEmojiClick = (emoji) => {
+    selectCustomImage(
+      emoji.id,
+      data.userId,
+      data.messageId,
+      data.convId,
+      emoji.src
+    );
+  };
+
   return (
     <div style={style}>
-      <Button styles={imageButtonStyles} text key={item.id} title={item.name}>
-        <Image
-          style={{ "max-height": "100%", "max-width": "100%" }}
-          src={item.src}
-        />
+      <Button
+        styles={imageButtonStyles}
+        text
+        key={item.id}
+        title={item.name}
+        onClick={() => onEmojiClick(item)}
+      >
+        <Image style={{ maxHeight: "100%", maxWidth: "100%" }} src={item.src} />
       </Button>
     </div>
   );
 };
 
-export const CustomEmojisComponent = () => {
-  const allEmojis = getAllMockEmojis();
+export const CustomEmojisComponent = ({ messageId, userId, convId }) => {
+  const [allEmojis, setAllEmojis] = React.useState([]);
+  React.useEffect(() => {
+    getCustomImages(userId).then((emojis) => {
+      if (!emojis) {
+        setAllEmojis(getAllMockEmojis());
+      } else {
+        setAllEmojis(emojis);
+      }
+    });
+  }, []);
+
   const gridData = [{ id: "add-emoji" }, ...allEmojis];
 
   const columnCount = 6;
@@ -86,6 +111,9 @@ export const CustomEmojisComponent = () => {
   const itemData = React.useMemo(() => ({
     columnCount,
     items: gridData,
+    messageId,
+    userId,
+    convId,
   }));
 
   const autoSizerChild = (height, width) => {
@@ -103,7 +131,7 @@ export const CustomEmojisComponent = () => {
         itemData={itemData}
         style={{ overflowX: "hidden" }}
       >
-        {ItemRenderer}
+        {EmojiRenderer}
       </FixedSizeGrid>
     );
   };

@@ -36,10 +36,14 @@ export const MainPage = () => {
         primary
         onActiveIndexChange={onActiveIndexChange}
       />
-      {activeIndex === 0 && <CustomEmojisComponent />}
-      {activeIndex === 1 && (
-        <Camera messageId={messageId} userId={userId} convId={convId} />
+      {activeIndex === 0 && (
+        <CustomEmojisComponent
+          messageId={messageId}
+          userId={userId}
+          convId={convId}
+        />
       )}
+      {activeIndex === 1 && <Camera userId={userId} />}
     </div>
   );
 };
