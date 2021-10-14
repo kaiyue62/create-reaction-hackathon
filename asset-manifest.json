@@ -1,20 +1,20 @@
 {
   "files": {
-    "main.css": "/create-reaction-hackathon/static/css/main.20191f30.chunk.css",
-    "main.js": "/create-reaction-hackathon/static/js/main.76f2c3c4.chunk.js",
-    "main.js.map": "/create-reaction-hackathon/static/js/main.76f2c3c4.chunk.js.map",
+    "main.css": "/create-reaction-hackathon/static/css/main.62a48231.chunk.css",
+    "main.js": "/create-reaction-hackathon/static/js/main.48b49594.chunk.js",
+    "main.js.map": "/create-reaction-hackathon/static/js/main.48b49594.chunk.js.map",
     "runtime-main.js": "/create-reaction-hackathon/static/js/runtime-main.52175ed9.js",
     "runtime-main.js.map": "/create-reaction-hackathon/static/js/runtime-main.52175ed9.js.map",
-    "static/js/2.e6eb4c73.chunk.js": "/create-reaction-hackathon/static/js/2.e6eb4c73.chunk.js",
-    "static/js/2.e6eb4c73.chunk.js.map": "/create-reaction-hackathon/static/js/2.e6eb4c73.chunk.js.map",
+    "static/js/2.10cc3166.chunk.js": "/create-reaction-hackathon/static/js/2.10cc3166.chunk.js",
+    "static/js/2.10cc3166.chunk.js.map": "/create-reaction-hackathon/static/js/2.10cc3166.chunk.js.map",
     "index.html": "/create-reaction-hackathon/index.html",
-    "static/css/main.20191f30.chunk.css.map": "/create-reaction-hackathon/static/css/main.20191f30.chunk.css.map",
-    "static/js/2.e6eb4c73.chunk.js.LICENSE.txt": "/create-reaction-hackathon/static/js/2.e6eb4c73.chunk.js.LICENSE.txt"
+    "static/css/main.62a48231.chunk.css.map": "/create-reaction-hackathon/static/css/main.62a48231.chunk.css.map",
+    "static/js/2.10cc3166.chunk.js.LICENSE.txt": "/create-reaction-hackathon/static/js/2.10cc3166.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.52175ed9.js",
-    "static/js/2.e6eb4c73.chunk.js",
-    "static/css/main.20191f30.chunk.css",
-    "static/js/main.76f2c3c4.chunk.js"
+    "static/js/2.10cc3166.chunk.js",
+    "static/css/main.62a48231.chunk.css",
+    "static/js/main.48b49594.chunk.js"
   ]
 }
