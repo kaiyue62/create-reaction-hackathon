@@ -1,13 +1,13 @@
-import * as React from 'react';
-import { Button } from '@fluentui/react-northstar';
+import * as React from "react";
+import { Button } from "@fluentui/react-northstar";
 import "./Camera.css";
-import * as axios from 'axios';
-import { uploadUserImage } from './data';
+import * as axios from "axios";
+import { uploadUserImage } from "./data";
 
 const width = 320;
 const height = 240;
 
-export const Camera = ({messageId, userId, convId}) => {
+export const Camera = ({ messageId, userId, convId }) => {
   const videoRef = React.useRef(null);
   const canvasRef = React.useRef(null);
   const photoRef = React.useRef(null);
