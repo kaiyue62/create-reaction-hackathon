@@ -7,39 +7,18 @@ import {
   AddIcon,
   Text,
 } from "@fluentui/react-northstar";
+import { FixedSizeGrid } from "react-window";
+import AutoSizer from "react-virtualized-auto-sizer";
 import { getAllMockEmojis } from "./MockData";
 import { getCustomImages, selectCustomImage } from "./data";
 
 const imageButtonStyles = {
-  minWidth: "150px",
-  maxWidth: "150px",
-  height: "150px",
-  padding: "0",
-  margin: "5px",
+  width: "calc(100% - 10px)",
+  height: "80%",
+  margin: "10px 5px",
 };
 
-const renderImageButtons = (allEmojis, onEmojiClick) => {
-  // Todo: get emoji from server
-  // const allEmojis = await getCustomImages("");//getAllMockEmojis();
-  const onClick = (emoji) => {
-    onEmojiClick(emoji);
-  };
-  return (
-    allEmojis &&
-    allEmojis.map((emoji) => (
-      <Button
-        key={emoji.id}
-        styles={imageButtonStyles}
-        title={emoji.name}
-        onClick={()=>onClick(emoji)}
-      >
-        <Image fluid src={emoji.src} />
-      </Button>
-    ))
-  );
-};
-
-const renderAddEmojiButton = () => {
+const AddEmoji = ({ style }) => {
   const fileInputRef = React.useRef(null);
 
   const onAddButtonClick = React.useCallback(() => {
@@ -54,7 +33,7 @@ const renderAddEmojiButton = () => {
   });
 
   return (
-    <div>
+    <div style={style}>
       <input
         id="fileButton"
         ref={fileInputRef}
@@ -63,6 +42,7 @@ const renderAddEmojiButton = () => {
         hidden
       />
       <Button
+        text
         key={"add_emoji"}
         styles={imageButtonStyles}
         onClick={onAddButtonClick}
@@ -74,34 +54,99 @@ const renderAddEmojiButton = () => {
   );
 };
 
-const renderGridContents = (allEmojis, onEmojiClick) => {
-  const allEmojisButtons = renderImageButtons(allEmojis, onEmojiClick);
-  const addEmojiButton = renderAddEmojiButton();
-  allEmojisButtons && allEmojisButtons.unshift(addEmojiButton);
-  return allEmojisButtons || addEmojiButton;
+const EmojiRenderer = (props) => {
+  const { columnIndex, data, rowIndex, style } = props;
+  const index = rowIndex * data.columnCount + columnIndex;
+
+  const item =
+    data.items && data.items.length > index ? data.items[index] : null;
+  if (!item) {
+    return null;
+  }
+  if (item.id === "add-emoji") {
+    return <AddEmoji style={style} />;
+  }
+
+  const onEmojiClick = (emoji) => {
+    selectCustomImage(
+      emoji.id,
+      data.userId,
+      data.messageId,
+      data.convId,
+      emoji.src
+    );
+  };
+
+  return (
+    <div style={style}>
+      <Button
+        styles={imageButtonStyles}
+        text
+        key={item.id}
+        title={item.name}
+        onClick={() => onEmojiClick(item)}
+      >
+        <Image style={{ maxHeight: "100%", maxWidth: "100%" }} src={item.src} />
+      </Button>
+    </div>
+  );
 };
 
 export const CustomEmojisComponent = ({ messageId, userId, convId }) => {
   const [allEmojis, setAllEmojis] = React.useState([]);
   React.useEffect(() => {
-    getCustomImages("").then((emojis) => {
-      if(!emojis){
+    getCustomImages(userId).then((emojis) => {
+      if (!emojis) {
         setAllEmojis(getAllMockEmojis());
-      }else{
-      setAllEmojis(emojis);
+      } else {
+        setAllEmojis(emojis);
       }
     });
   }, []);
-  const onEmojiClick = (emoji) => {
-    selectCustomImage(emoji.id, userId, messageId, convId, emoji.src);
+
+  const gridData = [{ id: "add-emoji" }, ...allEmojis];
+
+  const columnCount = 6;
+  const rowCount = Math.ceil(gridData.length / columnCount);
+  const itemData = React.useMemo(() => ({
+    columnCount,
+    items: gridData,
+    messageId,
+    userId,
+    convId,
+  }));
+
+  const autoSizerChild = (height, width) => {
+    const columnWidth = Math.floor(width / columnCount);
+    return (
+      <FixedSizeGrid
+        className={"FixedSizeGrid"}
+        columnCount={columnCount}
+        rowCount={rowCount}
+        width={width}
+        height={height}
+        columnWidth={columnWidth}
+        rowHeight={150}
+        initialScrollTop={0}
+        itemData={itemData}
+        style={{ overflowX: "hidden" }}
+      >
+        {EmojiRenderer}
+      </FixedSizeGrid>
+    );
   };
+
+  const virtualizedGrid = (
+    <AutoSizer>
+      {({ height, width }) => autoSizerChild(height, width)}
+    </AutoSizer>
+  );
+
   return (
-    <div>
-      <Grid
-        accessibility={gridHorizontalBehavior}
-        columns={8}
-        content={renderGridContents(allEmojis, onEmojiClick)}
-      />
-    </div>
+    <Grid
+      accessibility={gridHorizontalBehavior}
+      content={virtualizedGrid}
+      style={{ height: "100%", width: "100%" }}
+    />
   );
 };
